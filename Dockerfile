@@ -1,5 +1,5 @@
 # Use an official Maven image to build the application
-FROM maven:3.9.5-openjdk-22.ea-b19 AS build
+FROM maven:openjdk AS build
 
 # Set the working directory inside the container
 WORKDIR /app
