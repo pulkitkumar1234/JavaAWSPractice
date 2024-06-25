@@ -1,9 +1,21 @@
-FROM maven:3.8.6-openjdk-22 AS build
+# Use an official Maven image to build the application
+FROM maven:3.8.5-openjdk-22 AS build
 
-# Run the Maven build
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the pom.xml and the source code to the container
+COPY pom.xml .
+COPY src ./src
+
+# Package the application
 RUN mvn clean package
 
-FROM openjdk:22
-COPY target/java-spring-aws-0.0.1-SNAPSHOT.jar java-spring-aws-0.0.1-SNAPSHOT.jarclear
-ENTRYPOINT ["java","-jar","/java-spring-aws-0.0.1-SNAPSHOT.jar"]
+# Use an official OpenJDK image to run the application
+FROM openjdk:22-jdk
 
+# Copy the packaged jar from the build stage
+COPY --from=build /app/target/java-spring-aws-0.0.1-SNAPSHOT.jar /java-spring-aws-0.0.1-SNAPSHOT.jar
+
+# Set the entry point to run the jar
+ENTRYPOINT ["java","-jar","/java-spring-aws-0.0.1-SNAPSHOT.jar"]
