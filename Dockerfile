@@ -12,7 +12,7 @@ COPY src ./src
 RUN mvn clean package
 
 # Use an official OpenJDK image to run the application
-FROM openjdk:22-jdk
+FROM openjdk:21-jdk
 
 # Copy the packaged jar from the build stage
 COPY --from=build /app/target/java-spring-aws-0.0.1-SNAPSHOT.jar /java-spring-aws-0.0.1-SNAPSHOT.jar
